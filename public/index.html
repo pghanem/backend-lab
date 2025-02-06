@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Sandbox UI</title>
+</head>
+<body>
+<h1>Welcome to the Backend Sandbox</h1>
+<div>
+    <h2>HTTP API POC</h2>
+    <button id="http-poc-btn">Fetch HTTP POC</button>
+    <p id="http-poc-response"></p>
+</div>
+
+<script>
+	document.getElementById('http-poc-btn').addEventListener('click', async () => {
+		const response = await fetch('/restApi/restGet');
+		const data = await response.json();
+		document.getElementById('http-poc-response').innerText = data.message;
+	});
+</script>
+</body>
+</html>

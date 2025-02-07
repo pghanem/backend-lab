@@ -9,16 +9,48 @@
 <h1>Welcome to the Backend Sandbox</h1>
 <div>
     <h2>HTTP API POC</h2>
-    <button id="http-poc-btn">GET request (REST API)</button>
-    <p id="http-poc-response"></p>
+    <button id="http-get">GET request (REST API)</button>
+    <p id="http-get-response"></p>
+    <button id="http-post">POST request (REST API)</button>
+    <p id="http-post-response"></p>
+    <button id="http-put">PUT request (REST API)</button>
+    <p id="http-put-response"></p>
+    <button id="http-delete">DELETE request (REST API)</button>
+    <p id="http-delete-response"></p>
+
 </div>
 
 <script>
-	document.getElementById('http-poc-btn').addEventListener('click', async () => {
+	document.getElementById('http-get').addEventListener('click', async () => {
 		const response = await fetch('/restApi/restGet');
 		const data = await response.json();
-		document.getElementById('http-poc-response').innerText = data.message;
+		document.getElementById('http-get-response').innerText = data.message;
 	});
+
+	document.getElementById('http-post').addEventListener('click', async () => {
+		const response = await fetch('/restApi/restPost', {
+			method: 'POST'
+		});
+		const data = await response.json();
+		document.getElementById('http-post-response').innerText = data.message;
+	});
+
+	document.getElementById('http-put').addEventListener('click', async () => {
+		const response = await fetch('/restApi/restPut', {
+			method: 'PUT'
+		});
+		const data = await response.json();
+		document.getElementById('http-put-response').innerText = data.message;
+	});
+
+	document.getElementById('http-delete').addEventListener('click', async () => {
+		const response = await fetch('/restApi/restDelete', {
+			method: 'DELETE'
+		});
+		const data = await response.json();
+		document.getElementById('http-delete-response').innerText = data.message;
+	});
+
 </script>
 </body>
 </html>

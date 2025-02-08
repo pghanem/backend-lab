@@ -9,6 +9,11 @@
 <h1>Welcome to the Backend Sandbox</h1>
 <div>
     <h2>HTTP API POC</h2>
+
+    <label for="user-id-input">Enter User ID:</label>
+    <input type="number" id="user-id-input" placeholder="Enter User ID" />
+    <div></div>
+
     <button id="http-get">GET request (REST API)</button>
     <p id="http-get-response"></p>
     <button id="http-post">POST request (REST API)</button>
@@ -22,9 +27,21 @@
 
 <script>
 	document.getElementById('http-get').addEventListener('click', async () => {
-		const response = await fetch('/restApi/restGet');
+		// Get the userId from the input field
+		const userId = document.getElementById('user-id-input').value;
+
+		// If no userId is entered, show a message and exit
+		if (!userId) {
+			document.getElementById('http-get-response').innerText = 'Please enter a User ID.';
+			return;
+		}
+
+		// Perform the GET request with the userId
+		const response = await fetch(`/restApi/restGet/${userId}`);
 		const data = await response.json();
-		document.getElementById('http-get-response').innerText = data.message;
+
+		// Display the response
+		document.getElementById('http-get-response').innerText = JSON.stringify(data.user) || 'User not found';
 	});
 
 	document.getElementById('http-post').addEventListener('click', async () => {

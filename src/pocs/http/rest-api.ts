@@ -1,11 +1,20 @@
 import { Router, Request, Response } from 'express';
+import db from "../../config/db";
 
 const router = Router();
 
-// Example routes for a simple REST API
-router.get('/restGet', (req: Request, res: Response) => {
-	res.status(200).json({
-		message: 'Successful GET request!',
+router.get('/restGet/:id', (req: Request, res: Response) => {
+	const userId = req.params.id;
+
+	db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results: any[]) => {
+		if (err) {
+			console.error('Database error:', err);
+			return res.status(500).json({ message: 'Database error', error: err });
+		}
+		if (results.length === 0) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		res.status(200).json({ message: 'User retrieved successfully', user: results[0] });
 	});
 });
 

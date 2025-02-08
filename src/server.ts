@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 
 // Simple GET route to check the database connection
 app.get('/api/test-db', (req: Request, res: Response) => {
-	// TODO: test this out - the connection log in db.ts works but have yet to see this one
 	db.query('SELECT NOW()', (err, results) => {
 		if (err) {
 			console.error('Database error:', err);

@@ -6,7 +6,9 @@ const router = Router();
 router.get('/restGet/:id', (req: Request, res: Response) => {
 	const userId = req.params.id;
 
-	db.query('SELECT * FROM users WHERE id = ?', [userId], (err, results: any[]) => {
+	const sql = "SELECT * FROM users WHERE id = ?"
+
+	db.query(sql, [userId], (err, results: any[]) => {
 		if (err) {
 			console.error('Database error:', err);
 			return res.status(500).json({ message: 'Database error', error: err });
@@ -19,8 +21,13 @@ router.get('/restGet/:id', (req: Request, res: Response) => {
 });
 
 router.post('/restPost', (req: Request, res: Response) => {
-	res.status(200).json({
-		message: 'Successful POST request!',
+	const { first_name, last_name, email } = req.body;
+
+	const sql = "INSERT INTO users (first_name, last_name, email) VALUES (?, ?, ?)";
+
+	db.query(sql, [first_name, last_name, email], (err, result) => {
+		if (err) return res.status(500).json({ error: err });
+		res.status(201).json({ message: 'User created' });
 	});
 });
 

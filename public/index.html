@@ -27,20 +27,16 @@
 
 <script>
 	document.getElementById('http-get').addEventListener('click', async () => {
-		// Get the userId from the input field
 		const userId = document.getElementById('user-id-input').value;
 
-		// If no userId is entered, show a message and exit
 		if (!userId) {
 			document.getElementById('http-get-response').innerText = 'Please enter a User ID.';
 			return;
 		}
 
-		// Perform the GET request with the userId
 		const response = await fetch(`/restApi/restGet/${userId}`);
 		const data = await response.json();
 
-		// Display the response
 		document.getElementById('http-get-response').innerText = JSON.stringify(data.user) || 'User not found';
 	});
 

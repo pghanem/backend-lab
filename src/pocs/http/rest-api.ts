@@ -3,6 +3,8 @@ import db from "../../config/db";
 
 const router = Router();
 
+// TODO: add error handling, better errors for the user, input validation, etc
+
 router.get('/restGet/:id', (req: Request, res: Response) => {
 	const userId = req.params.id;
 

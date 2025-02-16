@@ -31,9 +31,15 @@ router.post('/restPost', (req: Request, res: Response) => {
 	});
 });
 
-router.put('/restPut', (req: Request, res: Response) => {
-	res.status(200).json({
-		message: 'Successful PUT request!',
+router.put('/restPut/:id', (req: Request, res: Response) => {
+	const userId = req.params.id;
+	const { first_name, last_name, email } = req.body;
+
+	const sql = "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
+
+	db.query(sql, [first_name, last_name, email, userId], (err, result) => {
+		if (err) return res.status(500).json({ error: err });
+		res.status(200).json({ message: 'User updated' });
 	});
 });
 

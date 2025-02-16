@@ -1,7 +1,7 @@
 # Backend Lab 🧪
 
 A learning-focused backend project using **Node.js**, **TypeScript**, **Express.js**, and **MySQL**.  
-This project tests and explores backend development concepts, including:
+This project is for me to test and explore backend development concepts in a simplified environment, including:
 
 - HTTP (REST & GraphQL)
 - API versioning

@@ -10,12 +10,15 @@
 <div>
     <h2>HTTP API POC</h2>
 
+    <!-- GET section -->
+    <h3>GET User</h3>
     <label for="user-id-input">Enter User ID:</label>
     <input type="number" id="user-id-input" placeholder="User ID" />
-    <br />
     <button id="http-get">GET request (REST API)</button>
     <p id="http-get-response"></p>
 
+    <!-- POST section -->
+    <h3>Create New User</h3>
     <label for="user-fn-input">Enter First Name:</label>
     <input type="text" id="user-fn-input" placeholder="John" />
     <br />
@@ -28,8 +31,27 @@
     <button id="http-post">POST request (REST API)</button>
     <p id="http-post-response"></p>
 
+    <!-- PUT section -->
+    <h3>Update User</h3>
+    <label for="put-user-id-input">User ID to Update:</label>
+    <input type="number" id="put-user-id-input" placeholder="User ID" />
+    <br />
+    <label for="put-user-fn-input">New First Name:</label>
+    <input type="text" id="put-user-fn-input" placeholder="John" />
+    <br />
+    <label for="put-user-ln-input">New Last Name:</label>
+    <input type="text" id="put-user-ln-input" placeholder="Smith" />
+    <br />
+    <label for="put-user-email-input">New Email:</label>
+    <input type="email" id="put-user-email-input" placeholder="john.smith@gmail.com" />
+    <br />
     <button id="http-put">PUT request (REST API)</button>
     <p id="http-put-response"></p>
+
+    <!-- DELETE section -->
+    <h3>Delete User</h3>
+    <label for="delete-user-id-input">User ID to Delete:</label>
+    <input type="number" id="delete-user-id-input" placeholder="User ID" />
     <button id="http-delete">DELETE request (REST API)</button>
     <p id="http-delete-response"></p>
 
@@ -77,15 +99,40 @@
 	});
 
 	document.getElementById('http-put').addEventListener('click', async () => {
-		const response = await fetch('/restApi/restPut', {
-			method: 'PUT'
+		const userId = document.getElementById('put-user-id-input').value;
+		const firstName = document.getElementById('put-user-fn-input').value;
+		const lastName = document.getElementById('put-user-ln-input').value;
+		const email = document.getElementById('put-user-email-input').value;
+
+		if (!userId || !firstName || !lastName || !email) {
+			document.getElementById('http-put-response').innerText = 'Please fill in all fields.';
+			return;
+		}
+
+		const response = await fetch(`/restApi/restPut/${userId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				first_name: firstName,
+				last_name: lastName,
+				email: email
+			})
 		});
 		const data = await response.json();
 		document.getElementById('http-put-response').innerText = data.message;
 	});
 
 	document.getElementById('http-delete').addEventListener('click', async () => {
-		const response = await fetch('/restApi/restDelete', {
+		const userId = document.getElementById('delete-user-id-input').value;
+
+		if (!userId) {
+			document.getElementById('http-delete-response').innerText = 'Please enter a User ID.';
+			return;
+		}
+
+		const response = await fetch(`/restApi/restDelete/${userId}`, {
 			method: 'DELETE'
 		});
 		const data = await response.json();

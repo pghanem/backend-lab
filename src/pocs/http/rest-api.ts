@@ -43,9 +43,14 @@ router.put('/restPut/:id', (req: Request, res: Response) => {
 	});
 });
 
-router.delete('/restDelete', (req: Request, res: Response) => {
-	res.status(200).json({
-		message: 'Successful DELETE request!',
+router.delete('/restDelete/:id', (req: Request, res: Response) => {
+	const userId = req.params.id;
+
+	const sql = "DELETE FROM users WHERE id = ?";
+
+	db.query(sql, [userId], (err, result) => {
+		if (err) return res.status(500).json({ error: err });
+		res.status(200).json({ message: 'User deleted' });
 	});
 });
 

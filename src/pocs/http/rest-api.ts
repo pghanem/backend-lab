@@ -6,20 +6,29 @@ const router = Router();
 // TODO: add error handling, better errors for the user, input validation, etc
 
 router.get('/restGet/:id', (req: Request, res: Response) => {
-	const userId = req.params.id;
+	try {
+		const userId = req.params.id;
 
-	const sql = "SELECT * FROM users WHERE id = ?"
+		if (!userId) {
+			return res.status(400).json({ message: 'User ID is required' });
+		}
 
-	db.query(sql, [userId], (err, results: any[]) => {
-		if (err) {
-			console.error('Database error:', err);
-			return res.status(500).json({ message: 'Database error', error: err });
-		}
-		if (results.length === 0) {
-			return res.status(404).json({ message: 'User not found' });
-		}
-		res.status(200).json({ message: 'User retrieved successfully', user: results[0] });
-	});
+		const sql = "SELECT * FROM users WHERE id = ?"
+
+		db.query(sql, [userId], (err, results: any[]) => {
+			if (err) {
+				console.error('Database error:', err);
+				return res.status(500).json({ message: 'Database error', error: err });
+			}
+			if (results.length === 0) {
+				return res.status(404).json({ message: 'User not found' });
+			}
+			res.status(200).json({ message: 'User retrieved successfully', user: results[0] });
+		});
+	} catch (error) {
+		console.error('Server error:', error);
+		res.status(500).json({ message: 'Internal server error' });
+	}
 });
 
 router.post('/restPost', (req: Request, res: Response) => {
